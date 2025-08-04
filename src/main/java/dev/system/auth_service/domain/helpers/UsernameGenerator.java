@@ -27,10 +27,8 @@ public class UsernameGenerator {
         String username = baseUsername;
         int suffix = 1;
 
-        while(userRepository.findByUsername(username).isPresent()) {
-            suffix++;
+
             username = baseUsername + suffix;
-        }
 
         return username;
     }

@@ -30,11 +30,6 @@ public class RegisterUseCase implements IRegisterUseCase {
     @Override
     public ResponseEntity<UserEntity> run (@Valid RegisterDTO dto) {
         String username = usernameGenerator.generateUsername(dto.name());
-
-        if(this.repository.findByUsername(username).isPresent()) {
-            return ResponseEntity.badRequest().build();
-        }
-
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
 
         UserEntity newUser = new UserEntity();

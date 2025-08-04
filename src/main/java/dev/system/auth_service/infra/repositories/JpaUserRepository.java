@@ -12,5 +12,5 @@ import java.util.UUID;
 
 @Repository
 public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
-    Optional<UserEntity> findByUsername(String username);
+    UserDetails findByUsername(String username);
 }
