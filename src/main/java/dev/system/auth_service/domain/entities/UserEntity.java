@@ -35,10 +35,11 @@ public class UserEntity implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private RoleEnum role;
 
-    @Column
+    @Column(nullable = false)
     private boolean active;
 
     @Override
