@@ -1,8 +1,5 @@
 package dev.system.auth_service.infra.security;
 
-package com.example.auth.infra.security;
-
-import com.example.auth.repositories.UserRepository;
 import dev.system.auth_service.application.interfaces.IUserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
