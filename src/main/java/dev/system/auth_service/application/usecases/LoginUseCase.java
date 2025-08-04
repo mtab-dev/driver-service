@@ -10,6 +10,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Service
 public class LoginUseCase implements ILoginUseCase {
 
@@ -22,15 +25,19 @@ public class LoginUseCase implements ILoginUseCase {
     }
 
     @Override
-    public ResponseEntity run(LoginDTO dto) {
+    public ResponseEntity<Map<String, Object>> run(LoginDTO dto) {
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(dto.username(), dto.password())
         );
 
-        System.out.println("auth = " + auth.getDetails());
-
         var token = tokenService.generateToken((UserEntity) auth.getPrincipal());
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", "success");
+        response.put("token", token);
+
+
+        return ResponseEntity.ok(response);
     }
 }

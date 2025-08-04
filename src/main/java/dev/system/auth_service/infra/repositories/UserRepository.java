@@ -5,7 +5,9 @@ import dev.system.auth_service.domain.entities.UserEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -22,9 +24,25 @@ public class UserRepository implements IUserRepository {
 
 
     @Override
-    public UserEntity save(UserEntity user) {
-        var response = repository.save(user);
+    public Map<String, Object> save(UserEntity user) {
+        var data = repository.save(user);
+
+        Map<String, Object> response = new HashMap<>();
+        Map<String, Object> returnUser = new HashMap<>();
+        returnUser.put("name", user.getName());
+        returnUser.put("email", user.getEmail());
+        returnUser.put("id", user.getId());
+        returnUser.put("username", user.getUsername());
+
+        response.put("status", "success");
+        response.put("user", returnUser);
+
         return response;
+    }
+
+    @Override
+    public void deleteById(UUID id, String username) {
+
     }
 
 }

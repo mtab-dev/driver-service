@@ -1,4 +1,4 @@
 package dev.system.auth_service.domain.dto.response;
 
-public record LoginResponseDTO(String token) {
+public record LoginResponseDTO(String status, String token) {
 }
