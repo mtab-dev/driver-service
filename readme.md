@@ -52,6 +52,8 @@ mvnw.cmd spring-boot:run
 
 `POST` - /auth/login
 
+`No Role`
+
 Payload:
 ```
 {
@@ -62,6 +64,8 @@ Payload:
 
 `POST` - /auth/register
 
+`No Role`
+
 Payload:
 ```
 {
@@ -69,6 +73,24 @@ Payload:
     "email": "",
     "password": ""
 }
+```
+
+`GET` - /auth/users
+
+`CLIENT ROLE`
+
+Essa rota busca os usuários de acordo com os parametros passados na url. Sendo eles e-mail e roles. Se nenhum parâmetro for passado, a api buscará por todos os usuários.
+
+```
+/auth/users?email=emailb@email.com&role=role
+```
+
+`DELETE` - /auth/delete
+
+`ADMIN ROLE`
+
+```
+/auth/users/delete/{id-do-usuario-a-ser-deletado}
 ```
 
 ## 🔐 Autenticação
