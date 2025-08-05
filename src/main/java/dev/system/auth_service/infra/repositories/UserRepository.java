@@ -77,4 +77,15 @@ public class UserRepository implements IUserRepository {
         return response;
     }
 
+    @Override
+    public Map<String, Object> deleteById(UUID id) {
+        repository.deleteById(id);
+
+        Map<String, Object> response = new HashMap<>();
+
+        response.put("status", "success");
+
+        return response;
+    }
+
 }
