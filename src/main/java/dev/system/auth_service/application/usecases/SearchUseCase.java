@@ -18,12 +18,24 @@ public class SearchUseCase implements ISearchUseCase {
 
     @Override
     public Map<String, Object> run(String email, String role) {
-        if (email != null) {
+        boolean hasEmail = email != null && !email.isBlank();
+        boolean hasRole = role != null && !role.isBlank();
+
+        if (hasEmail && !hasRole) {
             return repository.findByEmail(email);
         }
-        if (role != null) {
+
+        if (!hasEmail && hasRole) {
             return repository.findByRole(RoleEnum.valueOf(role));
         }
-        return repository.findAll();
+
+        if (!hasEmail && !hasRole) {
+            return repository.findAll();
+        }
+
+        return Map.of(
+                "status", "error",
+                "message", "Você deve fornecer apenas email ou role, não ambos."
+        );
     }
 }
