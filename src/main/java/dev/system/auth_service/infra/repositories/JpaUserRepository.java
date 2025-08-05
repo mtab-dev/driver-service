@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +16,8 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByEmail(String email);
     List<UserEntity> findByRole(RoleEnum role);
     List<UserEntity> findAll();
+    void deleteById(UUID id);
+    boolean existsById(UUID id);
 
 
 }

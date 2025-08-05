@@ -13,4 +13,5 @@ public interface IUserRepository {
     Map<String, Object> findByEmail(String email);
     Map<String, Object> findByRole(RoleEnum role);
     Map<String, Object> findAll();
+    Map<String, Object> deleteById(UUID id);
 }
