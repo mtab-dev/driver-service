@@ -6,10 +6,7 @@ import dev.system.auth_service.domain.enums.RoleEnum;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Repository
 public class UserRepository implements IUserRepository {
@@ -48,15 +45,8 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public Map<String, Object> findByRole(RoleEnum role) {
-        var data = repository.findByRole(role);
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", "success");
-        response.put("user", data);
-
-        return response;
+    public List<UserEntity> findByRole(RoleEnum role) {
+        return repository.findByRole(role);
     }
 
     @Override

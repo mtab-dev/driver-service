@@ -30,7 +30,10 @@ public class SearchUseCase implements ISearchUseCase {
         }
 
         if (!hasEmail && hasRole) {
-            return repository.findByRole(RoleEnum.valueOf(role));
+            var result = repository.findByRole(RoleEnum.valueOf(role));
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("result", result);
+            return response;
         }
 
         if (!hasEmail && !hasRole) {
