@@ -5,6 +5,7 @@ import dev.system.auth_service.application.interfaces.IUserRepository;
 import dev.system.auth_service.domain.enums.RoleEnum;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -22,7 +23,10 @@ public class SearchUseCase implements ISearchUseCase {
         boolean hasRole = role != null && !role.isBlank();
 
         if (hasEmail && !hasRole) {
-            return repository.findByEmail(email);
+            var result = repository.findByEmail(email);
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("result", result);
+            return response;
         }
 
         if (!hasEmail && hasRole) {

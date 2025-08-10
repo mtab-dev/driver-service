@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface IUserRepository {
     UserDetails findByUsername(String username);
     Map<String, Object> save(UserEntity user);
-    Map<String, Object> findByEmail(String email);
+    Optional<UserEntity> findByEmail(String email);
     Map<String, Object> findByRole(RoleEnum role);
     Map<String, Object> findAll();
     Map<String, Object> deleteById(UUID id);

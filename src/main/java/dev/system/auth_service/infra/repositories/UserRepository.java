@@ -43,15 +43,8 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public Map<String, Object> findByEmail(String email) {
-        var data = repository.findByEmail(email);
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", "success");
-        response.put("user", data);
-
-        return response;
+    public Optional<UserEntity> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 
     @Override
