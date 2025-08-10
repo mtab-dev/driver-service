@@ -85,13 +85,36 @@ Essa rota busca os usuários de acordo com os parametros passados na url. Sendo 
 /auth/users?email=emailb@email.com&role=role
 ```
 
-`DELETE` - /auth/delete
+`DELETE` - /auth/users/delete
 
 `ADMIN ROLE`
 
 ```
 /auth/users/delete/{id-do-usuario-a-ser-deletado}
 ```
+
+`PUT` - /auth/users/update/role
+
+Payload:
+```
+{
+    "id": "",
+    "role": ""
+}
+```
+
+`PUT` - /auth/users/update
+
+Payload:
+```
+{
+    "id": "",
+    "name": "",
+    "email": "",
+    "password": "",
+}
+```
+Nesta rota, não se faz necessário enviar todos os parâmetros. Deve-se enviar apenas os campos a serem alterados.
 
 ## 🔐 Autenticação
 
