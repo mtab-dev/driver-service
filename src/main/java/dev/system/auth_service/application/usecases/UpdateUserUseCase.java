@@ -1,0 +1,42 @@
+package dev.system.auth_service.application.usecases;
+
+import dev.system.auth_service.application.interfaces.IUpdateRoleUseCase;
+import dev.system.auth_service.application.interfaces.IUpdateUserUseCase;
+import dev.system.auth_service.application.interfaces.IUserRepository;
+import dev.system.auth_service.domain.dto.request.UpdateRoleDTO;
+import dev.system.auth_service.domain.dto.request.UpdateUserDTO;
+import dev.system.auth_service.domain.entities.UserEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.Optional;
+
+@Service
+public class UpdateUserUseCase implements IUpdateUserUseCase {
+
+    private final IUserRepository repository;
+
+    public UpdateUserUseCase(IUserRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public ResponseEntity<Map<String, Object>> run(UpdateUserDTO dto) {
+        Optional<UserEntity> userToUpdate = repository.findById(dto.id());
+        if(userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
+
+        UserEntity user = userToUpdate.get();
+
+        if (dto.name() != null) user.setName(dto.name());
+        if (dto.email() != null) user.setEmail(dto.email());
+        if (dto.password() != null && !dto.password().isEmpty()) {
+            String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
+            user.setPassword(encryptedPassword);
+        }
+
+        return ResponseEntity.ok(repository.save(user));
+    }
+}
