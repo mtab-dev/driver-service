@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class UsernameGenerator {
 
-    private final IUserRepository userRepository;
 
-    public UsernameGenerator(IUserRepository userRepository) {
-        this.userRepository = userRepository;
+    private final IUserRepository repository;
+
+    public UsernameGenerator(IUserRepository repository) {
+        this.repository = repository;
     }
 
     public String generateUsername(String fullName) {
@@ -23,12 +24,15 @@ public class UsernameGenerator {
         String lastName = parts[parts.length - 1].toLowerCase();
 
         String baseUsername = firstNameInitial + lastName;
-
         String username = baseUsername;
+
         int suffix = 1;
 
-
+        // Loop para encontrar um username que não existe ainda
+        while (repository.findByUsername(username) != null) {
+            suffix++;
             username = baseUsername + suffix;
+        }
 
         return username;
     }
