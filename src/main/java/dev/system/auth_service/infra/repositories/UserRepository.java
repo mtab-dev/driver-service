@@ -56,11 +56,12 @@ public class UserRepository implements IUserRepository {
 
     @Override
     public Map<String, Object> deleteById(UUID id) {
+        boolean existsBefore = repository.existsById(id);
+
         repository.deleteById(id);
 
         Map<String, Object> response = new HashMap<>();
-
-        response.put("status", "success");
+        response.put("deleted", existsBefore);
 
         return response;
     }
