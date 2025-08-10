@@ -5,6 +5,7 @@ import dev.system.auth_service.domain.enums.RoleEnum;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserRepository {
@@ -14,4 +15,5 @@ public interface IUserRepository {
     Map<String, Object> findByRole(RoleEnum role);
     Map<String, Object> findAll();
     Map<String, Object> deleteById(UUID id);
+    Optional<UserEntity> findById(UUID id);
 }

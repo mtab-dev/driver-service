@@ -31,6 +31,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers(("/auth/users/delete/**")).hasRole("ADMIN")
                         .requestMatchers(("/auth/users")).hasRole("CLIENT")
+                        .requestMatchers("/auth/users/update/role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

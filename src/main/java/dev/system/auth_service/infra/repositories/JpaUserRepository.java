@@ -16,6 +16,7 @@ public interface JpaUserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByEmail(String email);
     List<UserEntity> findByRole(RoleEnum role);
     List<UserEntity> findAll();
+    Optional<UserEntity> findById(UUID id);
     void deleteById(UUID id);
     boolean existsById(UUID id);
 

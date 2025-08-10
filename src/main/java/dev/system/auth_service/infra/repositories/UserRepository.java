@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -86,6 +87,11 @@ public class UserRepository implements IUserRepository {
         response.put("status", "success");
 
         return response;
+    }
+
+    @Override
+    public Optional<UserEntity> findById(UUID id) {
+        return repository.findById(id);
     }
 
 }
