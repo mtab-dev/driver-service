@@ -50,15 +50,8 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public Map<String, Object> findAll() {
-        var data  = repository.findAll();
-
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", "success");
-        response.put("users", data);
-
-        return response;
+    public List<UserEntity> findAll() {
+        return repository.findAll();
     }
 
     @Override

@@ -37,7 +37,10 @@ public class SearchUseCase implements ISearchUseCase {
         }
 
         if (!hasEmail && !hasRole) {
-            return repository.findAll();
+            var result = repository.findAll();
+            HashMap<String, Object> response = new HashMap<>();
+            response.put("result", result);
+            return response;
         }
 
         return Map.of(

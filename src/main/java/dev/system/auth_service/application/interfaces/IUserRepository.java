@@ -14,7 +14,7 @@ public interface IUserRepository {
     Map<String, Object> save(UserEntity user);
     Optional<UserEntity> findByEmail(String email);
     List<UserEntity> findByRole(RoleEnum role);
-    Map<String, Object> findAll();
+    List<UserEntity> findAll();
     Map<String, Object> deleteById(UUID id);
     Optional<UserEntity> findById(UUID id);
 }
