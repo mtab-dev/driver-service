@@ -1,5 +1,6 @@
 package dev.system.auth_service.infra.security;
 
+import dev.system.auth_service.infra.exceptions.CustomAccessDeniedHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,8 +22,11 @@ public class SecurityConfiguration {
     @Autowired
     private SecurityFilter securityFilter;
 
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomAccessDeniedHandler accessDeniedHandler) throws Exception {
         return http
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -33,6 +37,9 @@ public class SecurityConfiguration {
                         .requestMatchers(("/auth/users")).hasRole("CLIENT")
                         .requestMatchers("/auth/users/update/role").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
