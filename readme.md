@@ -2,12 +2,6 @@
 
 > Esta API é um sistema de autenticação e autorização independente e desacoplado. Funcionando de forma autônoma e gerando tokens para as outras API consumirem.
 
-### Ajustes e melhorias
-
-O projeto ainda está em desenvolvimento e as próximas atualizações serão voltadas para as seguintes tarefas:
-
-- [ ] Update de usuários
-- [ ] Deletar usuários
 
 ## 💻 Pré-requisitos
 
@@ -31,7 +25,7 @@ Linux:
 Windows:
 
 ```
-mvnw.cmd clean install
+mvn clean install
 ```
 
 ## ☕ Rodar
@@ -45,7 +39,7 @@ Linux:
 
 Windows:
 ```
-mvnw.cmd spring-boot:run
+mvn spring-boot:run
 ```
 
 ## 📚 Endpoints Principais
