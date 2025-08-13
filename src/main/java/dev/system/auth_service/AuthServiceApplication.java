@@ -10,7 +10,7 @@ public class AuthServiceApplication {
 	public static void main(String[] args) {
 		Dotenv dotenv  = Dotenv.configure().load();
 
-		String port = dotenv.get("PORT", "8080");
+		String port = dotenv.get("PORT", "5240");
 		System.setProperty("server.port", port);
 
 		dotenv.entries().forEach(entry -> System.setProperty(entry.getKey(), entry.getValue()));
