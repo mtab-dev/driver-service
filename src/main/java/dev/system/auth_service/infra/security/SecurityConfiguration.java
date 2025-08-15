@@ -31,10 +31,11 @@ public class SecurityConfiguration {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/auth/register").permitAll()
                         .requestMatchers(("/auth/users/delete/**")).hasRole("ADMIN")
-                        .requestMatchers(("/auth/users")).hasRole("CLIENT")
+                        .requestMatchers(("/auth/users")).hasRole("USER")
                         .requestMatchers("/auth/users/update/role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
