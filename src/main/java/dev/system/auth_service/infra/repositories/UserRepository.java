@@ -3,6 +3,8 @@ package dev.system.auth_service.infra.repositories;
 import dev.system.auth_service.application.interfaces.IUserRepository;
 import dev.system.auth_service.domain.entities.UserEntity;
 import dev.system.auth_service.domain.enums.RoleEnum;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
@@ -45,14 +47,25 @@ public class UserRepository implements IUserRepository {
     }
 
     @Override
-    public List<UserEntity> findByRole(RoleEnum role) {
-        return repository.findByRole(role);
+    public Page<UserEntity> findByRole(RoleEnum role, Pageable pageable) {
+        return repository.findByRole(role, pageable);
     }
 
     @Override
-    public List<UserEntity> findAll() {
-        return repository.findAll();
+    public Page<UserEntity> findBySearch(String search, Pageable pageable) {
+        return repository.findBySearch(search, pageable);
     }
+
+    @Override
+    public Page<UserEntity> findBySearchAndRole(String search, RoleEnum role, Pageable pageable) {
+        return repository.findBySearchAndRole(search, role, pageable);
+    }
+
+    @Override
+    public Page<UserEntity> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
 
     @Override
     public Map<String, Object> deleteById(UUID id) {

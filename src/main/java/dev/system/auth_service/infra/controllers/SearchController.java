@@ -21,9 +21,11 @@ public class SearchController {
 
     @GetMapping("/users")
     public Map<String, Object> perform(
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String role
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String role,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
     ){
-        return usecase.run(email, role);
+        return usecase.run(search, role, page, size);
     }
 }

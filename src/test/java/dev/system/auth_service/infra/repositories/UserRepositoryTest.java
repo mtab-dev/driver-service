@@ -10,16 +10,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 
 
 @DataJpaTest
@@ -30,12 +31,10 @@ class UserRepositoryTest {
     @Autowired
     private IUserRepository repository;
 
-
     @Autowired
     EntityManager entityManager;
 
     private UserEntity createUser(RegisterDTO dto){
-
         String username = dto.name().trim();
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
 
@@ -47,140 +46,87 @@ class UserRepositoryTest {
         newUser.setRole(RoleEnum.CLIENT);
         newUser.setActive(true);
 
-        this.entityManager.persist(newUser);
+        entityManager.persist(newUser);
+        entityManager.flush(); // garante que o persist seja executado
+
         return newUser;
     }
 
     @Test
     @DisplayName("Should get user by username")
     void findByUsernameSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-
+        RegisterDTO dto = new RegisterDTO("testpassword","test@email.com","test user");
         UserEntity user = createUser(dto);
 
-        String username = user.getUsername();
-
-        UserDetails result = repository.findByUsername(username);
-
-        assertThat(result.getUsername()).isEqualTo(username);
+        UserDetails result = repository.findByUsername(user.getUsername());
+        assertThat(result.getUsername()).isEqualTo(user.getUsername());
     }
 
     @Test
     @DisplayName("Should not get user by username")
     void findByUsernameFailure() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-
-        UserEntity user = createUser(dto);
-
-        String username = user.getUsername()+"test";
-
-        UserDetails result = repository.findByUsername(username);
-
+        UserDetails result = repository.findByUsername("nonexistent");
         assertThat(result).isNull();
     }
 
     @Test
     @DisplayName("Should get user by email")
     void findByEmailSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-
-        UserEntity user = createUser(dto);
-
+        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
         Optional<UserEntity> result = repository.findByEmail(user.getEmail());
-
+        assertThat(result).isPresent();
         assertThat(result.get().getEmail()).isEqualTo(user.getEmail());
     }
 
     @Test
     @DisplayName("Should not get user by email")
     void findByEmailFailure() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-
-        UserEntity user = createUser(dto);
-
-        Optional<UserEntity> result = repository.findByEmail(user.getEmail()+"test");
-
+        Optional<UserEntity> result = repository.findByEmail("nonexistent@email.com");
         assertThat(result).isEmpty();
     }
 
     @Test
-    @DisplayName("Should get users by role")
+    @DisplayName("Should get users by role with pagination")
     void findByRoleSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-        UserEntity user = createUser(dto);
-        List<UserEntity> result = repository.findByRole(RoleEnum.CLIENT);
-        assertThat(result).hasSize(1);
+        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        var pageable = Pageable.ofSize(10);
+        var page = repository.findByRole(RoleEnum.CLIENT, pageable);
+        assertThat(page.getTotalElements()).isEqualTo(1);
+        assertThat(page.getContent().get(0).getRole()).isEqualTo(RoleEnum.CLIENT);
     }
 
     @Test
     @DisplayName("Should not get users by role")
     void findByRoleFailure() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-        UserEntity user = createUser(dto);
-        List<UserEntity> result = repository.findByRole(RoleEnum.USER);
-        assertThat(result).isEmpty();
+        var pageable = Pageable.ofSize(10);
+        var page = repository.findByRole(RoleEnum.USER, pageable);
+        assertThat(page.getTotalElements()).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("Should get all users")
+    @DisplayName("Should get all users with pagination")
     void findAllSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-        UserEntity user = createUser(dto);
-        List<UserEntity> result = repository.findAll();
-        assertThat(result).isNotNull();
+        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        var pageable = Pageable.ofSize(10);
+        var page = repository.findAll(pageable);
+        assertThat(page.getTotalElements()).isEqualTo(1);
     }
 
     @Test
     @DisplayName("Should not get any user")
     void findAllFailure() {
-        List<UserEntity> result = repository.findAll();
-        assertThat(result).isEmpty();
+        var pageable = Pageable.ofSize(10);
+        var page = repository.findAll(pageable);
+        assertThat(page.getTotalElements()).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Should delete user by id")
     void deleteByIdSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-        UserEntity user = createUser(dto);
-
-        Optional<UserEntity> userToDelete = repository.findByEmail(user.getEmail());
-        UUID id = userToDelete.get().getId();
-        Map<String, Object> result = repository.deleteById(id);
-
-        assertThat(result)
-                .containsEntry("deleted", true);
+        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        UUID id = user.getId();
+        Map<String,Object> result = repository.deleteById(id);
+        assertThat(result).containsEntry("deleted", true);
 
         Optional<UserEntity> deletedUser = repository.findById(id);
         assertThat(deletedUser).isEmpty();
@@ -189,28 +135,22 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should not delete user by id")
     void deleteByIdFailure() {
-        Map<String, Object> result = repository.deleteById(UUID.randomUUID());
-        assertThat(result)
-                .containsEntry("deleted", false);
+        Map<String,Object> result = repository.deleteById(UUID.randomUUID());
+        assertThat(result).containsEntry("deleted", false);
     }
 
     @Test
     @DisplayName("Should find user by id")
     void findByIdSuccess() {
-        RegisterDTO dto = new RegisterDTO(
-                "testpassword",
-                "test@email.com",
-                "test user"
-        );
-        UserEntity user = createUser(dto);
-        var result =  repository.findById(user.getId());
-        assertThat(result).isNotNull();
+        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        Optional<UserEntity> result = repository.findById(user.getId());
+        assertThat(result).isPresent();
     }
 
     @Test
     @DisplayName("Should not find user by id")
     void findByIdFailure() {
-        var result =  repository.findById(UUID.randomUUID());
+        Optional<UserEntity> result = repository.findById(UUID.randomUUID());
         assertThat(result).isEmpty();
     }
 }
