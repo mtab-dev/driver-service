@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +28,10 @@ public class UpdateRoleUseCase implements IUpdateRoleUseCase {
         if(userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
 
         var user = userToUpdate.get();
+
         user.setRole(RoleEnum.valueOf(dto.role()));
+        user.setUpdatedAt(LocalDateTime.now());
+
         var response = repository.save(user);
 
         return ResponseEntity.ok(response);

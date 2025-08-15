@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
@@ -36,6 +37,8 @@ public class RegisterUseCase implements IRegisterUseCase {
         newUser.setName(dto.name());
         newUser.setRole(RoleEnum.CLIENT);
         newUser.setActive(true);
+        newUser.setCreatedAt(LocalDateTime.now());
+        newUser.setUpdatedAt(LocalDateTime.now());
 
         var response = repository.save(newUser);
 
