@@ -73,10 +73,18 @@ Payload:
 
 `CLIENT ROLE`
 
-Essa rota busca os usuários de acordo com os parametros passados na url. Sendo eles e-mail e roles. Se nenhum parâmetro for passado, a api buscará por todos os usuários.
+Essa rota busca os usuários de forma paginada de acordo com os parametros passados na url. 
+Sendo eles:
+- `search`: que busca por nomes e emails;
+- `role`: que traz os usuários com a role solicitada.
+- `page`: a pagina que você quer buscar;
+- `size`: quantos usuários por página.
+
+Se nenhum parâmetro for passado, a api buscará por todos os usuários.
+
 
 ```
-/auth/users?email=emailb@email.com&role=role
+/auth/users?search=busca&role=role&page=1&size=10
 ```
 
 `DELETE` - /auth/users/delete
