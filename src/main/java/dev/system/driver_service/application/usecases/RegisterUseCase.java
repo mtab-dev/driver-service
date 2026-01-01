@@ -5,8 +5,7 @@ import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.RegisterDTO;
 import dev.system.driver_service.domain.entities.DriverEntity;
 import dev.system.driver_service.domain.enums.StatusEnum;
-import dev.system.driver_service.domain.enums.ValidatedEnum;
-import dev.system.driver_service.domain.helpers.UsernameGenerator;
+import dev.system.driver_service.domain.enums.ValidationEnum;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -36,7 +35,7 @@ public class RegisterUseCase implements IRegisterUseCase {
         newUser.setEmail(dto.email());
         newUser.setName(dto.name());
         newUser.setStatus(StatusEnum.ACTIVE);
-        newUser.setValidated(ValidatedEnum.PENDING);
+        newUser.setValidation(ValidationEnum.PENDING);
         newUser.setCpf(encryptedCPF);
         newUser.setRg(encryptedRg);
         newUser.setCnh(encryptedCnh);

@@ -1,7 +1,7 @@
 package dev.system.driver_service.domain.entities;
 
 import dev.system.driver_service.domain.enums.StatusEnum;
-import dev.system.driver_service.domain.enums.ValidatedEnum;
+import dev.system.driver_service.domain.enums.ValidationEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +37,7 @@ public class DriverEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private ValidatedEnum validated;
+    private ValidationEnum validation;
 
     @Column(nullable = false)
     private LocalDateTime birthDate;
