@@ -1,8 +1,9 @@
 package dev.system.driver_service.application.usecases;
 
-import dev.system.driver_service.application.interfaces.IUpdateRoleUseCase;
+import dev.system.driver_service.application.interfaces.IUpdateValidationUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
-import dev.system.driver_service.domain.dto.request.UpdateRoleDTO;
+import dev.system.driver_service.domain.dto.request.UpdateValidationDTO;
+import dev.system.driver_service.domain.enums.ValidationEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -10,27 +11,26 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Service
-public class UpdateRoleUseCase implements IUpdateRoleUseCase {
+public class UpdateValidationUseCase implements IUpdateValidationUseCase {
 
     private final IUserRepository repository;
 
-    public  UpdateRoleUseCase(IUserRepository repository) {
+    public UpdateValidationUseCase(IUserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> run(UpdateRoleDTO dto) {
+    public ResponseEntity<Map<String, Object>> run(UpdateValidationDTO dto) {
         var userToUpdate = repository.findById(dto.id());
 
-        if(userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
+        if (userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
 
         var user = userToUpdate.get();
 
-        user.setRole(RoleEnum.valueOf(dto.role()));
+        user.setValidation(ValidationEnum.valueOf(dto.validation()));
         user.setUpdatedAt(LocalDateTime.now());
 
         var response = repository.save(user);
-
         return ResponseEntity.ok(response);
     }
 }

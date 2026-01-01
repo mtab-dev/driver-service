@@ -1,7 +1,7 @@
 package dev.system.driver_service.infra.controllers;
 
-import dev.system.driver_service.application.interfaces.IUpdateRoleUseCase;
-import dev.system.driver_service.domain.dto.request.UpdateRoleDTO;
+import dev.system.driver_service.application.interfaces.IUpdateValidationUseCase;
+import dev.system.driver_service.domain.dto.request.UpdateValidationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,16 +12,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class UpdateRoleController {
+public class UpdateValidationController {
 
-    private final IUpdateRoleUseCase usecase;
+    private final IUpdateValidationUseCase usecase;
 
-    public UpdateRoleController(IUpdateRoleUseCase usecase) {
+    public UpdateValidationController(IUpdateValidationUseCase usecase) {
         this.usecase = usecase;
     }
 
-    @PutMapping("/users/update/role")
-    public ResponseEntity<Map<String, Object>> updateRole(@RequestBody UpdateRoleDTO dto) {
+    @PutMapping("driver/update/validation")
+    public ResponseEntity<Map<String, Object>> perform(@RequestBody UpdateValidationDTO dto){
         return this.usecase.run(dto);
     }
 

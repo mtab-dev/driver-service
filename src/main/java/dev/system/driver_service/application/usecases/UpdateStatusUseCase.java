@@ -5,10 +5,12 @@ import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.UpdateStatusDTO;
 import dev.system.driver_service.domain.enums.StatusEnum;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
+@Service
 public class UpdateStatusUseCase implements IUpdateStatusUseCase {
 
     private final IUserRepository repository;
