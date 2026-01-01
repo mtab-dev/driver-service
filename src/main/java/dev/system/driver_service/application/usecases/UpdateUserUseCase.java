@@ -3,7 +3,7 @@ package dev.system.driver_service.application.usecases;
 import dev.system.driver_service.application.interfaces.IUpdateUserUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.UpdateUserDTO;
-import dev.system.driver_service.domain.entities.UserEntity;
+import dev.system.driver_service.domain.entities.DriverEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,10 @@ public class UpdateUserUseCase implements IUpdateUserUseCase {
 
     @Override
     public ResponseEntity<Map<String, Object>> run(UpdateUserDTO dto) {
-        Optional<UserEntity> userToUpdate = repository.findById(dto.id());
+        Optional<DriverEntity> userToUpdate = repository.findById(dto.id());
         if(userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
 
-        UserEntity user = userToUpdate.get();
+        DriverEntity user = userToUpdate.get();
 
         if (dto.name() != null) user.setName(dto.name());
 

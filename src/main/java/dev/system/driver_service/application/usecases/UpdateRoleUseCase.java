@@ -3,7 +3,6 @@ package dev.system.driver_service.application.usecases;
 import dev.system.driver_service.application.interfaces.IUpdateRoleUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.UpdateRoleDTO;
-import dev.system.driver_service.domain.enums.RoleEnum;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

@@ -2,7 +2,7 @@ package dev.system.driver_service.application.usecases;
 
 import dev.system.driver_service.application.interfaces.ILoginUseCase;
 import dev.system.driver_service.domain.dto.request.LoginDTO;
-import dev.system.driver_service.domain.entities.UserEntity;
+import dev.system.driver_service.domain.entities.DriverEntity;
 import dev.system.driver_service.infra.security.TokenService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,7 +29,7 @@ public class LoginUseCase implements ILoginUseCase {
                 new UsernamePasswordAuthenticationToken(dto.username(), dto.password())
         );
 
-        var token = tokenService.generateToken((UserEntity) auth.getPrincipal());
+        var token = tokenService.generateToken((DriverEntity) auth.getPrincipal());
 
         Map<String, Object> response = new HashMap<>();
 

@@ -2,8 +2,7 @@ package dev.system.driver_service.application.usecases;
 
 import dev.system.driver_service.application.interfaces.ISearchUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
-import dev.system.driver_service.domain.entities.UserEntity;
-import dev.system.driver_service.domain.enums.RoleEnum;
+import dev.system.driver_service.domain.entities.DriverEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +22,7 @@ public class SearchUseCase implements ISearchUseCase {
     @Override
     public Map<String, Object> run(String search, String role, int  page, int size) {
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<UserEntity> result = null;
+        Page<DriverEntity> result = null;
 
         if (search != null && !search.isBlank() && role != null && !role.isBlank()) {
             result = repository.findBySearchAndRole(search, RoleEnum.valueOf(role), pageable);

@@ -2,8 +2,7 @@ package dev.system.driver_service.infra.repositories;
 
 import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.RegisterDTO;
-import dev.system.driver_service.domain.entities.UserEntity;
-import dev.system.driver_service.domain.enums.RoleEnum;
+import dev.system.driver_service.domain.entities.DriverEntity;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -33,11 +32,11 @@ class UserRepositoryTest {
     @Autowired
     EntityManager entityManager;
 
-    private UserEntity createUser(RegisterDTO dto){
+    private DriverEntity createUser(RegisterDTO dto){
         String username = dto.name().trim();
         String encryptedPassword = new BCryptPasswordEncoder().encode(dto.password());
 
-        UserEntity newUser = new UserEntity();
+        DriverEntity newUser = new DriverEntity();
         newUser.setUsername(username);
         newUser.setPassword(encryptedPassword);
         newUser.setEmail(dto.email());
@@ -55,7 +54,7 @@ class UserRepositoryTest {
     @DisplayName("Should get user by username")
     void findByUsernameSuccess() {
         RegisterDTO dto = new RegisterDTO("testpassword","test@email.com","test user");
-        UserEntity user = createUser(dto);
+        DriverEntity user = createUser(dto);
 
         UserDetails result = repository.findByUsername(user.getUsername());
         assertThat(result.getUsername()).isEqualTo(user.getUsername());
@@ -71,8 +70,8 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should get user by email")
     void findByEmailSuccess() {
-        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
-        Optional<UserEntity> result = repository.findByEmail(user.getEmail());
+        DriverEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        Optional<DriverEntity> result = repository.findByEmail(user.getEmail());
         assertThat(result).isPresent();
         assertThat(result.get().getEmail()).isEqualTo(user.getEmail());
     }
@@ -80,14 +79,14 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should not get user by email")
     void findByEmailFailure() {
-        Optional<UserEntity> result = repository.findByEmail("nonexistent@email.com");
+        Optional<DriverEntity> result = repository.findByEmail("nonexistent@email.com");
         assertThat(result).isEmpty();
     }
 
     @Test
     @DisplayName("Should get users by role with pagination")
     void findByRoleSuccess() {
-        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        DriverEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
         var pageable = Pageable.ofSize(10);
         var page = repository.findByRole(RoleEnum.CLIENT, pageable);
         assertThat(page.getTotalElements()).isEqualTo(1);
@@ -105,7 +104,7 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should get all users with pagination")
     void findAllSuccess() {
-        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        DriverEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
         var pageable = Pageable.ofSize(10);
         var page = repository.findAll(pageable);
         assertThat(page.getTotalElements()).isEqualTo(1);
@@ -122,12 +121,12 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should delete user by id")
     void deleteByIdSuccess() {
-        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        DriverEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
         UUID id = user.getId();
         Map<String,Object> result = repository.deleteById(id);
         assertThat(result).containsEntry("deleted", true);
 
-        Optional<UserEntity> deletedUser = repository.findById(id);
+        Optional<DriverEntity> deletedUser = repository.findById(id);
         assertThat(deletedUser).isEmpty();
     }
 
@@ -141,15 +140,15 @@ class UserRepositoryTest {
     @Test
     @DisplayName("Should find user by id")
     void findByIdSuccess() {
-        UserEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
-        Optional<UserEntity> result = repository.findById(user.getId());
+        DriverEntity user = createUser(new RegisterDTO("testpassword","test@email.com","test user"));
+        Optional<DriverEntity> result = repository.findById(user.getId());
         assertThat(result).isPresent();
     }
 
     @Test
     @DisplayName("Should not find user by id")
     void findByIdFailure() {
-        Optional<UserEntity> result = repository.findById(UUID.randomUUID());
+        Optional<DriverEntity> result = repository.findById(UUID.randomUUID());
         assertThat(result).isEmpty();
     }
 }
