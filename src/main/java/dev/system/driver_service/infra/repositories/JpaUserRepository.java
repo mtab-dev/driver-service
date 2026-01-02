@@ -20,11 +20,6 @@ public interface JpaUserRepository extends JpaRepository<DriverEntity, UUID> {
             "LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%'))")
     Page<DriverEntity> findBySearch(String search, Pageable pageable);
 
-    @Query("SELECT u FROM drivers u WHERE " +
-            "(LOWER(u.name) LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-            "LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))")
-    Page<DriverEntity> findAll(Pageable pageable);
-
     void deleteById(UUID id);
     boolean existsById(UUID id);
 
