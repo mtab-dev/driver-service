@@ -9,13 +9,14 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity(name = "driver")
+@Entity(name = "drivers")
 @Table(name = "drivers")
 public class DriverEntity {
     @Id
@@ -40,7 +41,7 @@ public class DriverEntity {
     private ValidationEnum validation;
 
     @Column(nullable = false)
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     private String cpf;

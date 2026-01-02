@@ -24,16 +24,6 @@ public class SearchUseCase implements ISearchUseCase {
         Pageable pageable = PageRequest.of(page-1, size);
         Page<DriverEntity> result = null;
 
-        if (search != null && !search.isBlank() && role != null && !role.isBlank()) {
-            result = repository.findBySearchAndRole(search, RoleEnum.valueOf(role), pageable);
-        }
-        if (search != null && !search.isBlank()) {
-            result = repository.findBySearch(search, pageable);
-        }
-        if (role != null && !role.isBlank()) {
-            result = repository.findByRole(RoleEnum.valueOf(role), pageable);
-        }
-
         if(role == null && search == null) result = repository.findAll(pageable);
 
         return Map.of(

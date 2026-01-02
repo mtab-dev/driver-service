@@ -21,11 +21,12 @@ public class TokenService {
         try{
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                    .withIssuer("auth-api")
-                    .withSubject(user.getUsername())
+                    .withIssuer("driver-api")
+                    .withSubject(user.getEmail())
                     .withClaim("name", user.getName())
                     .withClaim("email", user.getEmail())
-                    .withClaim("role", user.getRole().toString())
+                    .withClaim("status", user.getStatus().toString())
+                    .withClaim("validation", user.getValidation().toString())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
             return token;

@@ -18,7 +18,7 @@ public class SearchController {
         this.usecase = usecase;
     }
 
-    @GetMapping("/users")
+    @GetMapping("/driver")
     public Map<String, Object> perform(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String role,

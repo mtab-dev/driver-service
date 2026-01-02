@@ -10,7 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserRepository {
-    UserDetails findByUsername(String username);
     Map<String, Object> save(DriverEntity user);
     Optional<DriverEntity> findByEmail(String email);
     Page<DriverEntity> findBySearch(String search, Pageable pageable);

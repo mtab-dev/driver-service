@@ -21,7 +21,7 @@ public class LoginController {
         this.usecase = usecase;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/driver/login")
     public ResponseEntity<Map<String, Object>> perform(@RequestBody @Valid LoginDTO dto){
         return this.usecase.run(dto);
     }

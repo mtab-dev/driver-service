@@ -21,7 +21,7 @@ public class RegisterController {
         this.usecase = usecase;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/driver/register")
     public ResponseEntity<Map<String, Object>> perform(@RequestBody @Valid RegisterDTO dto){
 
         return this.usecase.run(dto);

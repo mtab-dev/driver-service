@@ -18,11 +18,6 @@ public class UserRepository implements IUserRepository {
         this.repository = repository;
     }
 
-    public UserDetails findByUsername(String username){
-        return repository.findByUsername(username);
-    }
-
-
     @Override
     public Map<String, Object> save(DriverEntity user) {
         var data = repository.save(user);
@@ -45,8 +40,6 @@ public class UserRepository implements IUserRepository {
         return repository.findByEmail(email);
     }
 
-
-
     @Override
     public Page<DriverEntity> findBySearch(String search, Pageable pageable) {
         return repository.findBySearch(search, pageable);
@@ -56,7 +49,6 @@ public class UserRepository implements IUserRepository {
     public Page<DriverEntity> findAll(Pageable pageable) {
         return repository.findAll(pageable);
     }
-
 
     @Override
     public Map<String, Object> deleteById(UUID id) {

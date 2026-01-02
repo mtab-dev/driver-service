@@ -17,7 +17,7 @@ public class DeleteController {
         this.usecase = usecase;
     }
 
-    @DeleteMapping("/users/delete/{id}")
+    @DeleteMapping("/driver/delete/{id}")
     public ResponseEntity<Map<String, Object>> perform(@PathVariable UUID id){
         return this.usecase.run(id);
     }

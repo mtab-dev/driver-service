@@ -1,7 +1,7 @@
 package dev.system.driver_service.infra.controllers;
 
-import dev.system.driver_service.application.interfaces.IUpdateUserUseCase;
-import dev.system.driver_service.domain.dto.request.UpdateUserDTO;
+import dev.system.driver_service.application.interfaces.IUpdateDriverUseCase;
+import dev.system.driver_service.domain.dto.request.UpdateDriverDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,16 +12,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-public class UpdateUserController {
+public class UpdateDriverController {
 
-    private final IUpdateUserUseCase usecase;
+    private final IUpdateDriverUseCase usecase;
 
-    public UpdateUserController(IUpdateUserUseCase usecase) {
+    public UpdateDriverController(IUpdateDriverUseCase usecase) {
         this.usecase = usecase;
     }
 
-    @PutMapping("/users/update")
-    public ResponseEntity<Map<String,Object>> update(@RequestBody UpdateUserDTO dto) {
+    @PutMapping("/driver/update")
+    public ResponseEntity<Map<String,Object>> update(@RequestBody UpdateDriverDTO dto) {
         return this.usecase.run(dto);
     }
 }
