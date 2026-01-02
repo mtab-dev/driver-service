@@ -32,8 +32,8 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/auth/register").permitAll()
+                        .requestMatchers("/auth/driver/login").permitAll()
+                        .requestMatchers("/auth/driver/register").permitAll()
                         .requestMatchers(("/auth/driver/delete/**")).hasRole("ADMIN")
                         .requestMatchers(("/auth/driver")).permitAll()
                         .requestMatchers("/auth/driver/update").permitAll()
