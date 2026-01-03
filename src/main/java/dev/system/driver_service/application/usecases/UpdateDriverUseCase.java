@@ -3,8 +3,11 @@ package dev.system.driver_service.application.usecases;
 import dev.system.driver_service.application.interfaces.IUpdateDriverUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
 import dev.system.driver_service.domain.dto.request.UpdateDriverDTO;
+import dev.system.driver_service.domain.dto.response.StandardResponseDTO;
 import dev.system.driver_service.domain.entities.DriverEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +25,12 @@ public class UpdateDriverUseCase implements IUpdateDriverUseCase {
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> run(UpdateDriverDTO dto) {
-        Optional<DriverEntity> userToUpdate = repository.findById(dto.id());
+    public ResponseEntity<StandardResponseDTO> run(UpdateDriverDTO dto) {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if(auth == null || !(auth.getPrincipal() instanceof DriverEntity contextUser)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+
+        Optional<DriverEntity> userToUpdate = repository.findById(contextUser.getId());
         if(userToUpdate.isEmpty()) return ResponseEntity.notFound().build();
 
         DriverEntity user = userToUpdate.get();
@@ -39,6 +46,10 @@ public class UpdateDriverUseCase implements IUpdateDriverUseCase {
 
         user.setUpdatedAt(LocalDateTime.now());
 
-        return ResponseEntity.ok(repository.save(user));
+        repository.save(user);
+
+        return ResponseEntity.ok(
+          new StandardResponseDTO("success", "updated")
+        );
     }
 }

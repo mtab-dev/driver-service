@@ -34,10 +34,6 @@ public class SecurityConfiguration {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/auth/driver/login").permitAll()
                         .requestMatchers("/auth/driver/register").permitAll()
-                        .requestMatchers(("/auth/driver/delete/**")).hasRole("ADMIN")
-                        .requestMatchers(("/auth/driver")).permitAll()
-                        .requestMatchers("/auth/driver/update").permitAll()
-                        .requestMatchers("/auth/driver/update/role").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .exceptionHandling(ex -> ex

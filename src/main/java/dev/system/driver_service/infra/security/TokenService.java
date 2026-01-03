@@ -22,7 +22,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("driver-api")
-                    .withSubject(user.getEmail())
+                    .withSubject(user.getId().toString())
                     .withClaim("name", user.getName())
                     .withClaim("email", user.getEmail())
                     .withClaim("status", user.getStatus().toString())
@@ -39,12 +39,12 @@ public class TokenService {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.require(algorithm)
-                    .withIssuer("auth-api")
+                    .withIssuer("driver-api")
                     .build()
                     .verify(token)
                     .getSubject();
         } catch (JWTVerificationException exception){
-            return "";
+            return null;
         }
     }
 

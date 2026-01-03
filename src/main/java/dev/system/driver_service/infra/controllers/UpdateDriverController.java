@@ -2,6 +2,7 @@ package dev.system.driver_service.infra.controllers;
 
 import dev.system.driver_service.application.interfaces.IUpdateDriverUseCase;
 import dev.system.driver_service.domain.dto.request.UpdateDriverDTO;
+import dev.system.driver_service.domain.dto.response.StandardResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +22,7 @@ public class UpdateDriverController {
     }
 
     @PutMapping("/driver/update")
-    public ResponseEntity<Map<String,Object>> update(@RequestBody UpdateDriverDTO dto) {
+    public ResponseEntity<StandardResponseDTO> update(@RequestBody UpdateDriverDTO dto) {
         return this.usecase.run(dto);
     }
 }
