@@ -2,7 +2,11 @@ package dev.system.driver_service.application.usecases;
 
 import dev.system.driver_service.application.interfaces.IDeleteUseCase;
 import dev.system.driver_service.application.interfaces.IUserRepository;
+import dev.system.driver_service.domain.dto.response.StandardResponseDTO;
+import dev.system.driver_service.domain.entities.DriverEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -18,10 +22,15 @@ public class DeleteUseCase implements IDeleteUseCase {
     }
 
     @Override
-    public ResponseEntity<Map<String, Object>> run(UUID id) {
+    public ResponseEntity<StandardResponseDTO> run() {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
 
-        var data = repository.deleteById(id);
+        if(auth == null || !(auth.getPrincipal() instanceof DriverEntity contextUser)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 
-        return ResponseEntity.ok(data);
+        var data = repository.deleteById(contextUser.getId());
+
+        return ResponseEntity.ok(
+                new StandardResponseDTO("success", "deleted")
+        );
     }
 }

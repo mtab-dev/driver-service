@@ -1,6 +1,7 @@
 package dev.system.driver_service.infra.controllers;
 
 import dev.system.driver_service.application.interfaces.IDeleteUseCase;
+import dev.system.driver_service.domain.dto.response.StandardResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class DeleteController {
     }
 
     @DeleteMapping("/driver/delete/{id}")
-    public ResponseEntity<Map<String, Object>> perform(@PathVariable UUID id){
-        return this.usecase.run(id);
+    public ResponseEntity<StandardResponseDTO> perform(){
+        return this.usecase.run();
     }
 }
