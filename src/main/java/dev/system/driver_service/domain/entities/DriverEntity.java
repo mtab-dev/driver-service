@@ -8,9 +8,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -18,7 +22,7 @@ import java.util.UUID;
 @Data
 @Entity(name = "drivers")
 @Table(name = "drivers")
-public class DriverEntity {
+public class DriverEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
