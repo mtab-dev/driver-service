@@ -18,7 +18,7 @@ public class DeleteController {
         this.usecase = usecase;
     }
 
-    @DeleteMapping("/driver/delete/{id}")
+    @DeleteMapping("/driver/delete")
     public ResponseEntity<StandardResponseDTO> perform(){
         return this.usecase.run();
     }

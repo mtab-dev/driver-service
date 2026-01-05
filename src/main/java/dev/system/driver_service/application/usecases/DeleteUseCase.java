@@ -29,6 +29,8 @@ public class DeleteUseCase implements IDeleteUseCase {
 
         var data = repository.deleteById(contextUser.getId());
 
+        if(data == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
         return ResponseEntity.ok(
                 new StandardResponseDTO("success", "deleted")
         );
